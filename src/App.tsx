@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { loadPacks } from './domain/loader'
 import { LocalKernel } from './domain/kernel'
 import { ModelKernel, ModelKernelError } from './domain/modelKernel'
@@ -134,6 +134,7 @@ export default function App() {
 
         {pack && phase === 'nextline' && (
           <NextLineView
+            key={pack.id}
             pack={pack}
             onPass={() => {
               setPhase('done')
@@ -215,13 +216,25 @@ function ForgeView(props: {
   const mark = pack.marks[markIndex]
   const [answer, setAnswer] = useState('')
   const [verdict, setVerdict] = useState<{ kind: 'pass' | 'fail'; text: string } | null>(null)
+  const [locked, setLocked] = useState(false)
+  const timerRef = useRef<number | null>(null)
+
+  // Clear any pending advance timer when this lesson unmounts (pack switch /
+  // phase change), so a stale callback can never corrupt the next session.
+  useEffect(() => {
+    return () => {
+      if (timerRef.current !== null) window.clearTimeout(timerRef.current)
+    }
+  }, [])
 
   const doneCount = Object.values(progress).filter((x) => x.passed).length
 
   function submit() {
+    if (locked) return
     if (checkAnswer(answer, mark.check.accept)) {
+      setLocked(true)
       setVerdict({ kind: 'pass', text: '✔ The move is yours.' })
-      window.setTimeout(onPass, 900)
+      timerRef.current = window.setTimeout(onPass, 900)
     } else {
       setVerdict({
         kind: 'fail',
