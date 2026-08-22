@@ -45,15 +45,15 @@ export function SettingsDialog(props: {
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(5,6,12,0.7)',
+        background: 'color-mix(in srgb, var(--desk) 80%, transparent)',
         display: 'grid',
         placeItems: 'center',
         zIndex: 50,
       }}
     >
-      <div ref={dialogRef} className="card" style={{ maxWidth: 460, width: '92%' }}>
+      <div ref={dialogRef} className="panel" style={{ maxWidth: 460, width: '92%' }}>
         <h2>Model engine</h2>
-        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>
+        <p className="why">
           Optional. QuestForge works fully offline without this. Your key is stored in
           your browser only and sent only to the endpoint below.
         </p>

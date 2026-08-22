@@ -36,7 +36,7 @@ export default defineConfig({
     // NOTE(@playwright/test ^1.62): `url` and `port` are mutually exclusive in
     // webServer; `url` wins because it pins the exact 127.0.0.1 host.
     url: 'http://127.0.0.1:4173',
-    reuseExistingServer: false,
+    reuseExistingServer: true,
     timeout: 60_000,
   },
   use: {

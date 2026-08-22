@@ -7,7 +7,7 @@
     {
       "id": "axis-sign-convention",
       "label": "the upward-positive convention",
-      "why": "The sheet announces 'UP IS POSITIVE' and then quietly encodes it as the minus sign in front of g. If the convention feels arbitrary, every answer looks arbitrary. One naming pass fixes that.",
+      "why": "It turns UP IS POSITIVE into the minus on g — used in every v_y equation here.",
       "signatures": [
         "UP IS POSITIVE",
         "−\\s*g with g\\s*=\\s*9\\.8"
@@ -32,7 +32,7 @@
     {
       "id": "vector-components-from-angle",
       "label": "splitting velocity into components",
-      "why": "Question 2 assumes you can turn one angled arrow into two perpendicular ones. The cos/sin pairing decides everything downstream, so it deserves its own name.",
+      "why": "It splits one angled launch into vₓ = v · cos θ and v_y = v · sin θ — required for question 2.",
       "signatures": [
         "vₓ\\s*=\\s*v\\s*[·]\\s*cos",
         "[Cc]ompute vₓ"

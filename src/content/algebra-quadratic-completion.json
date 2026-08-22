@@ -7,7 +7,7 @@
     {
       "id": "complete-square-b-over-2",
       "label": "completing the square",
-      "why": "Problem 2 hands you a bare quadratic, but the worked example compresses the whole method into the shorthand (b/2)². Naming that move puts it back in your hands.",
+      "why": "The example uses (b/2)² without naming it — that's the completing-the-square move Problem 2 needs.",
       "signatures": [
         "\\(\\s*b\\s*/\\s*2\\s*\\)\\s*(\\^2|²)",
         "[Aa]dd [Aa][Nn][Dd] subtract"
@@ -34,7 +34,7 @@
     {
       "id": "imaginary-unit-i",
       "label": "the imaginary unit i",
-      "why": "Problem 4 ends with a negative number under the root, and the note leans on i = √−1 without building it. Here is the build.",
+      "why": "The note uses i = √−1 without naming it — that's how Problem 4 finishes a negative root.",
       "signatures": [
         "i\\s*=\\s*√\\s*−?\\s*1",
         "√\\s*−\\s*9"

@@ -2,10 +2,12 @@
 
 **Learn the moves. Write the next line yourself.**
 
-QuestForge is an open-source, AI-powered learning engine that turns any worksheet,
-textbook page, or study guide into a guided quest: it finds exactly the prerequisite
-moves you're missing, teaches only those, makes you *use* each one, and then hands
-the pen back to you. It never does the work for you.
+QuestForge is an open-source, AI-powered learning engine that lives on an ink
+desk. You pick a page; the worksheet paper is laid out as given, with each
+authored signature highlighted in place — the page is never rewritten. From that
+sheet it builds a guided quest: it finds exactly the prerequisite moves you're
+missing, teaches only those, makes you *use* each one, and then hands the pen
+back to you. It never does the work for you.
 
 > Built open-source for the Pixel Forge AI Hackathon (Aug 2026).
 
@@ -36,7 +38,8 @@ and two interchangeable engines implement it:
    that mark inside the source text. The kernel locates each mark's first occurrence,
    fully offline, with zero network calls. Because detection is just authored regexes
    over text you can read, every diagnosis is **auditable**: you can see exactly why a
-   mark was flagged. An invalid signature never crashes diagnosis; it's skipped.
+   mark was flagged. The same signatures paint in-place highlights on the worksheet
+   paper; an invalid signature never crashes diagnosis or the page — it's skipped.
 
 2. **ModelKernel (optional).** Same interface, model-backed analysis behind it. You
    bring your own OpenAI-compatible endpoint and key, entered in-browser. The endpoint
@@ -74,7 +77,8 @@ Each mark carries:
 - `id`, `label` — e.g. `"completing-the-square"`, `"completing the square"`.
 - `why` — why this mark matters. Respectful, zero shame.
 - `signatures` *(optional)* — regexes LocalKernel uses to spot usage evidence in
-  `sourceText`. Provide them so diagnosis can locate the mark.
+  `sourceText`. Provide them so diagnosis can locate the mark and so the paper
+  can highlight those spans in place.
 - `lesson` — `{ notation, steps }`: the notation family this mark belongs to and
   3–6 ordered steps, written in the *same notation* as your source text.
 - `check` — `{ prompt, accept }`: an apply-it-yourself micro-problem plus 2–4 regex
@@ -122,7 +126,8 @@ Skeleton:
   has no path that writes a student's work. It diagnoses, teaches, checks, and hands
   back the pen.
 - **Design** — an accessible dark grimoire UI: dark theme, labelled regions, keyboard-
-  reachable controls, feedback that respects the learner.
+  reachable controls, feedback that respects the learner. The worksheet stays the
+  object — authored signatures highlight in place on the paper.
 - **Impact** — unlocks tomorrow's class without doing tonight's work. Missing moves get
   named and taught instead of papered over.
 - **Technical** — dual-kernel architecture behind one interface, with the domain layer

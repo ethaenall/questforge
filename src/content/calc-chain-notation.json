@@ -7,7 +7,7 @@
     {
       "id": "reading-d-over-dt",
       "label": "reading d/dt",
-      "why": "The excerpt opens with dV/dt = 100 cm³/s as if the notation reads itself. It doesn't have to stay opaque — one naming pass and it does.",
+      "why": "It reads dV/dt as one rate, not a fraction — used from the excerpt's first line.",
       "signatures": [
         "dV\\s*/\\s*dt\\s*=\\s*100",
         "dV\\s*/\\s*dt\\s*=\\s*4πr²"
@@ -33,7 +33,7 @@
     {
       "id": "chain-rule-rates",
       "label": "the chain rule as a rates converter",
-      "why": "The excerpt's line dV/dt = 4πr² · dr/dt contains a silent step: the chain rule inserting dr/dt. Rebuilding that step makes the line derivable instead of magical.",
+      "why": "It inserts the silent dr/dt that makes dV/dt = 4πr² · dr/dt — used in the excerpt.",
       "signatures": [
         "4πr²\\s*[·]\\s*dr\\s*/\\s*dt",
         "chain rule"

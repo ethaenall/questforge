@@ -1,0 +1,65 @@
+{
+  "id": "stats-z-score-units",
+  "title": "Quiz 2 — Standard Units",
+  "subject": "Statistics",
+  "sourceText": "AP Stats — Quiz 2: Standard Units\\nName: ________\\n\\nA distribution of exam scores is roughly Normal with mean μ = 72 and standard deviation σ = 8.\\n\\nWe write a score x in standard units as\\n    z = (x − μ) / σ\\n\\nWorked example: a score of 88 has\\n    z = (88 − 72) / 8 = 2\\nso it sits two standard deviations above the mean.\\n\\n1) Convert 64 to a z-score.\\n2) A z-score of −1.5 corresponds to what raw score?\\n3) The empirical rule says about 95% of values lie between z = −2 and z = 2.\\n   State that interval in original exam points.\\n\\nNote: once a value is in standard units, P(Z ≤ z) is read from a standard Normal table — the original units never re-enter the probability step.",
+  "marks": [
+    {
+      "id": "z-score-standard-units",
+      "label": "standard units (z)",
+      "why": "The quiz writes z = (x − μ) / σ without naming the move — that's how every later item talks about distance from the mean.",
+      "signatures": [
+        "z\\\\s*=\\\\s*\\\\(x\\\\s*−\\\\s*μ\\\\)\\\\s*/\\\\s*σ",
+        "standard units"
+      ],
+      "lesson": {
+        "notation": "statistics",
+        "steps": [
+          { "text": "A z-score asks: how many standard deviations is x from the mean?" },
+          { "text": "Compute z = (x − μ) / σ. Same units cancel; z is a pure count." },
+          { "text": "Positive z is above the mean. Negative z is below. z = 0 is the mean itself." },
+          { "text": "In the worked example, 88 is 16 points above 72, and 16/8 = 2." }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: μ = 72, σ = 8. What is the z-score for x = 64?",
+        "accept": [
+          "^[-−]\\\\s*1$",
+          "^[-−]\\\\s*1\\\\.0$"
+        ]
+      }
+    },
+    {
+      "id": "empirical-rule-two-sigma",
+      "label": "the 95% / two-sigma interval",
+      "why": "Item 3 cites the empirical rule in z-units but never shows how to put the interval back into exam points.",
+      "signatures": [
+        "z\\\\s*=\\\\s*[-−]\\\\s*2",
+        "empirical rule"
+      ],
+      "lesson": {
+        "notation": "statistics",
+        "steps": [
+          { "text": "The empirical rule: about 95% of a Normal distribution sits between z = −2 and z = 2." },
+          { "text": "To return to original units, undo the z formula: x = μ + zσ." },
+          { "text": "Low end: 72 + (−2)(8) = 56. High end: 72 + 2·8 = 88." },
+          { "text": "So the 95% interval on this quiz is 56 to 88 exam points." }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: μ = 72, σ = 8. What exam-point interval is z ∈ [−2, 2]?",
+        "accept": [
+          "^56\\\\s*(to|–|-|—|,)\\s*88$",
+          "^\\\\[\\\\s*56\\\\s*,\\\\s*88\\\\s*\\\\]$"
+        ]
+      }
+    }
+  ],
+  "nextLine": {
+    "setup": "A later problem says: 'A score of 80 has z = (80 − 72) / 8. Write the next line — evaluate that z-score yourself.'",
+    "expect": {
+      "pattern": "z\\\\s*=\\\\s*1(\\\\.0)?",
+      "hint": "Subtract, then divide: (80 − 72) is 8, and 8/8 is 1."
+    }
+  }
+}

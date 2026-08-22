@@ -5,6 +5,7 @@ import { ModelKernel, ModelKernelError } from './domain/modelKernel'
 import { loadModelConfig } from './domain/config'
 import { checkAnswer, checkNextLine, type CheckOutcome, type ContentPack, type Diagnosis } from './domain/types'
 import { SettingsDialog } from './components/SettingsDialog'
+import { AnnotatedPaper } from './components/AnnotatedPaper'
 
 const kernel = new LocalKernel()
 
@@ -26,6 +27,15 @@ export default function App() {
   const [modelBusy, setModelBusy] = useState(false)
   const [modelError, setModelError] = useState<string | null>(null)
   const [modelConfigured, setModelConfigured] = useState<boolean>(() => loadModelConfig() !== null)
+  const [doneIds, setDoneIds] = useState<string[]>(() => {
+    try {
+      const raw = localStorage.getItem('questforge.done.v1')
+      const parsed: unknown = raw ? JSON.parse(raw) : []
+      return Array.isArray(parsed) ? parsed.filter((x) => typeof x === 'string') : []
+    } catch {
+      return []
+    }
+  })
 
   const pack = packs.find((p) => p.id === packId) ?? null
 
@@ -56,26 +66,25 @@ export default function App() {
       .finally(() => setModelBusy(false))
   }
 
-
   return (
-    <>
-      <header className="masthead">
-        <span className="rune">⚔ ⚒ ✒</span>
-        <h1>QuestForge</h1>
-        <p>
+    <div className="shell">
+      <header className="topbar">
+        <div className="brand">
+          <span className="mark">Ink</span>
+          <h1>QuestForge</h1>
+        </div>
+        <p className="lede">
           Your page uses moves it never taught you. QuestForge names exactly those,
           teaches only those — then hands the pen back. It never does the work for you.
         </p>
-        <div style={{ marginTop: 10 }}>
-          <button
-            type="button"
-            className="btn secondary"
-            onClick={() => setSettingsOpen(true)}
-            aria-label="Model engine settings"
-          >
-            ⚙ Model engine {modelConfigured ? '· AI' : '· local'}
-          </button>
-        </div>
+        <button
+          type="button"
+          className="btn secondary"
+          onClick={() => setSettingsOpen(true)}
+          aria-label="Model engine settings"
+        >
+          Model engine {modelConfigured ? '· AI' : '· local'}
+        </button>
       </header>
 
       <SettingsDialog
@@ -87,8 +96,8 @@ export default function App() {
         }}
       />
 
-      <main>
-        <section className="card" aria-label="Choose a worksheet">
+      <div className="desk">
+        <aside className="shelf" aria-label="Choose a worksheet">
           <h2>1 · Pick your page</h2>
           <div className="pack-picker">
             {packs.map((p) => (
@@ -99,65 +108,84 @@ export default function App() {
                 aria-pressed={p.id === packId}
                 onClick={() => choosePack(p.id)}
               >
+                <span className="subj">{p.subject}</span>
                 {p.title}
+                {doneIds.includes(p.id) ? <span className="done"> forged</span> : null}
               </button>
             ))}
           </div>
-        </section>
+        </aside>
 
-        {pack && phase === 'diagnose' && (
-          <DiagnoseView
-            pack={pack}
-            diagnosis={modelDiagnosis ?? kernel.diagnose(pack)}
-            modelBusy={modelBusy}
-            modelError={modelError}
-            onBegin={() => setPhase('forge')}
-          />
-        )}
+        <main className="workspace">
+          {!pack && (
+            <div className="empty-desk">
+              <strong>Open a page.</strong>
+              Missing marks will surface on the sheet itself. Nothing is written for you.
+            </div>
+          )}
 
-        {pack && phase === 'forge' && (
-          <ForgeView
-            key={markIndex}
-            pack={pack}
-            markIndex={markIndex}
-            progress={progress}
-            onPass={(id) => {
-              setProgress((prev) => ({ ...prev, [id]: { passed: true, attempts: (prev[id]?.attempts ?? 0) + 1 } }))
-              if (markIndex + 1 < pack.marks.length) {
-                setMarkIndex(markIndex + 1)
-              } else {
-                setPhase('nextline')
-              }
-            }}
-          />
-        )}
+          {pack && phase === 'diagnose' && (
+            <DiagnoseView
+              pack={pack}
+              diagnosis={modelDiagnosis ?? kernel.diagnose(pack)}
+              modelBusy={modelBusy}
+              modelError={modelError}
+              onBegin={() => setPhase('forge')}
+            />
+          )}
 
-        {pack && phase === 'nextline' && (
-          <NextLineView
-            key={pack.id}
-            pack={pack}
-            onPass={() => {
-              setPhase('done')
-            }}
-          />
-        )}
+          {pack && phase === 'forge' && (
+            <ForgeView
+              key={markIndex}
+              pack={pack}
+              markIndex={markIndex}
+              progress={progress}
+              onPass={(id) => {
+                setProgress((prev) => ({ ...prev, [id]: { passed: true, attempts: (prev[id]?.attempts ?? 0) + 1 } }))
+                if (markIndex + 1 < pack.marks.length) {
+                  setMarkIndex(markIndex + 1)
+                } else {
+                  setPhase('nextline')
+                }
+              }}
+            />
+          )}
 
-        {pack && phase === 'done' && (
-          <section className="card finale" aria-label="Session complete">
-            <span className="pen-icon">✒️</span>
-            <h2>The pen is yours.</h2>
-            <p>
-              You named the missing moves, used each one, and wrote the next line
-              yourself. That line is yours — no engine wrote it.
-            </p>
-          </section>
-        )}
-      </main>
+          {pack && phase === 'nextline' && (
+            <NextLineView
+              key={pack.id}
+              pack={pack}
+              onPass={() => {
+                setPhase('done')
+                if (pack) {
+                  setDoneIds((prev) => {
+                    const next = prev.includes(pack.id) ? prev : [...prev, pack.id]
+                    try {
+                      localStorage.setItem('questforge.done.v1', JSON.stringify(next))
+                    } catch {
+                      /* ignore */
+                    }
+                    return next
+                  })
+                }
+              }}
+            />
+          )}
 
-      <footer className="site-foot">
-        QuestForge · learn the moves, write the next line · MIT licensed
-      </footer>
-    </>
+          {pack && phase === 'done' && (
+            <section className="finale" aria-label="Session complete">
+              <h2>The pen is yours.</h2>
+              <p>
+                You named the missing moves, used each one, and wrote the next line
+                yourself. That line is yours — no engine wrote it.
+              </p>
+            </section>
+          )}
+        </main>
+      </div>
+
+      <footer className="site-foot">QuestForge · learn the moves, write the next line · MIT licensed</footer>
+    </div>
   )
 }
 
@@ -169,40 +197,42 @@ function DiagnoseView(props: {
   onBegin: () => void
 }) {
   const { pack, diagnosis, onBegin } = props
+  const [focus, setFocus] = useState<string | null>(null)
   return (
-    <>
-      <section className="card" aria-label="Your page as given">
+    <div className="stage">
+      <section className="paper" aria-label="Your page as given">
         <h2>2 · The page as given</h2>
-        <p className="source-text">{pack.sourceText}</p>
+        <AnnotatedPaper text={pack.sourceText} marks={pack.marks} />
+        {focus && <p className="why">Looking at: {focus}</p>}
       </section>
 
-      <section className="card" aria-label="Undefined references found">
+      <section className="panel" aria-label="Undefined references found">
         <h2>3 · Undefined references</h2>
         {props.modelBusy && (
-          <p role="status" style={{ color: 'var(--text-dim)' }}>AI engine reading the page…</p>
+          <p role="status" className="why">AI engine reading the page…</p>
         )}
         {props.modelError && (
-          <p role="alert" style={{ color: 'var(--fail)' }}>{props.modelError}</p>
+          <p role="alert" className="verdict fail">{props.modelError}</p>
         )}
-        <p className="why" style={{ color: 'var(--text-dim)', marginTop: 0 }}>
+        <p className="why">
           These marks are <em>used</em> on this page but never <em>taught</em>.
           QuestForge names them so they can't ambush you.
         </p>
         <ol className="diagnosis-list">
           {diagnosis.detected.map((d) => (
             <li key={d.mark.id} className="mark-card">
-              <h3>{d.mark.label}</h3>
-              <p className="why">{d.mark.why}</p>
+              <button type="button" className="pack-btn" onClick={() => setFocus(d.mark.label)}>
+                <h3>{d.mark.label}</h3>
+                <p className="why">{d.mark.why}</p>
+              </button>
             </li>
           ))}
         </ol>
-        <div style={{ marginTop: 16 }}>
-          <button type="button" className="btn" onClick={onBegin}>
-            Teach me these →
-          </button>
-        </div>
+        <button type="button" className="btn" onClick={onBegin}>
+          Teach me these →
+        </button>
       </section>
-    </>
+    </div>
   )
 }
 
@@ -219,8 +249,6 @@ function ForgeView(props: {
   const [locked, setLocked] = useState(false)
   const timerRef = useRef<number | null>(null)
 
-  // Clear any pending advance timer when this lesson unmounts (pack switch /
-  // phase change), so a stale callback can never corrupt the next session.
   useEffect(() => {
     return () => {
       if (timerRef.current !== null) window.clearTimeout(timerRef.current)
@@ -234,7 +262,7 @@ function ForgeView(props: {
     if (checkAnswer(answer, mark.check.accept)) {
       setLocked(true)
       setVerdict({ kind: 'pass', text: '✔ The move is yours.' })
-      timerRef.current = window.setTimeout(onPass, 900)
+      timerRef.current = window.setTimeout(() => onPass(mark.id), 900)
     } else {
       setVerdict({
         kind: 'fail',
@@ -244,10 +272,10 @@ function ForgeView(props: {
   }
 
   return (
-    <section className="card" aria-label={`Lesson ${markIndex + 1} of ${pack.marks.length}`}>
+    <section className="panel lesson-card" aria-label={`Lesson ${markIndex + 1} of ${pack.marks.length}`}>
       <h2>
         4 · Move {markIndex + 1}/{pack.marks.length} — {mark.label}
-        <span style={{ color: 'var(--text-dim)', fontSize: 14 }}> · forged {doneCount}</span>
+        <span style={{ color: 'var(--dim)', fontSize: 14 }}> · forged {doneCount}</span>
       </h2>
       <ol className="lesson-steps">
         {mark.lesson.steps.map((s, i) => (
@@ -286,15 +314,15 @@ function NextLineView(props: { pack: ContentPack; onPass: () => void }) {
   const [outcome, setOutcome] = useState<CheckOutcome | null>(null)
 
   function submit() {
-    const outcome = checkNextLine(text, pack.nextLine)
-    setOutcome(outcome)
-    if (outcome.kind === 'pass') {
+    const next = checkNextLine(text, pack.nextLine)
+    setOutcome(next)
+    if (next.kind === 'pass') {
       window.setTimeout(props.onPass, 900)
     }
   }
 
   return (
-    <section className="card" aria-label="Write the next line">
+    <section className="panel lesson-card" aria-label="Write the next line">
       <h2>5 · Write the next line yourself</h2>
       <p className="nextline-setup">{pack.nextLine.setup}</p>
       <form
@@ -315,7 +343,7 @@ function NextLineView(props: { pack: ContentPack; onPass: () => void }) {
           Commit line
         </button>
       </form>
-      <p className={`verdict ${(outcome?.kind) ?? ''}`} role="status">
+      <p className={`verdict ${outcome?.kind ?? ''}`} role="status">
         {outcome?.kind === 'pass'
           ? '✔ That line is yours.'
           : outcome?.kind === 'fail' && outcome.hint

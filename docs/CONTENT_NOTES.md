@@ -38,3 +38,5 @@ as unnamed imports, not personal failings.
 | `calc-chain-notation` | Calculus | reading `d/dt`; chain rule as rates converter |
 
 All worksheet text is original, written for QuestForge.
+
+stats-z-score-units signatures: z\s*=\s*\(x\s*−\s*μ\)\s*/\s*σ; standard units; z\s*=\s*[-−]\s*2; empirical rule
