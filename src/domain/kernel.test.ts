@@ -70,11 +70,13 @@ describe('LocalKernel.diagnose', () => {
 describe('authored packs integrate with kernel', () => {
   const packs = loadPacks()
 
-  it('loads exactly the three night-one packs', () => {
+  it('loads the authored packs including afternoon additions', () => {
     expect(packs.map((p) => p.id)).toEqual([
       'algebra-quadratic-completion',
       'calc-chain-notation',
+      'chem-mole-ratio',
       'physics-kinematics-signs',
+      'stats-z-score-units',
     ])
   })
 

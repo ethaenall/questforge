@@ -1,0 +1,83 @@
+{
+  "id": "chem-mole-ratio",
+  "title": "Quiz 6 — Mole Ratios",
+  "subject": "Chemistry",
+  "sourceText": "AP Chemistry — Quiz 6: Mole Ratios\nName: ________\n\nAmmonia is produced by the balanced equation\n    N₂ + 3 H₂ → 2 NH₃\n\nWorked example: from 2.0 mol N₂ the conversion is\n    2.0 mol N₂ × (2 mol NH₃ / 1 mol N₂) = 4.0 mol NH₃\nusing the coefficients as a mole ratio.\n\nA sealed flask is charged with 4.0 mol N₂ and 9.0 mol H₂.\nThe theoretical yield is the amount of NH₃ made by the limiting reagent.\n\n1) How many moles of NH₃ can form from 4.0 mol N₂ if H₂ is unlimited?\n2) How many moles of NH₃ can form from 9.0 mol H₂ if N₂ is unlimited?\n3) Name the limiting reagent and state the theoretical yield of NH₃.\n\nNote: leftover moles of the excess reactant stay unused — they never re-enter the product step.",
+  "marks": [
+    {
+      "id": "mole-ratio-coefficients",
+      "label": "the mole ratio",
+      "why": "The quiz multiplies by (2 mol NH₃ / 1 mol N₂) without naming the move — that's how every later item converts one formula into another.",
+      "signatures": [
+        "2\\.0\\s*mol\\s*N₂\\s*[×x]\\s*\\(\\s*2\\s*mol\\s*NH₃\\s*/\\s*1\\s*mol\\s*N₂\\s*\\)",
+        "mole ratio"
+      ],
+      "lesson": {
+        "notation": "stoichiometry",
+        "steps": [
+          {
+            "text": "A balanced equation is a recipe in moles: 1 mol N₂ reacts with 3 mol H₂ to make 2 mol NH₃."
+          },
+          {
+            "text": "To change substances, build a fraction from those coefficients — target on top, given on the bottom."
+          },
+          {
+            "text": "Multiply the given moles by that fraction. The given unit cancels; moles of the target remain."
+          },
+          {
+            "text": "In the worked example, 2.0 mol N₂ × (2 mol NH₃ / 1 mol N₂) = 4.0 mol NH₃. The 2/1 is the mole ratio."
+          }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: N₂ + 3 H₂ → 2 NH₃. How many moles of NH₃ form from 4.0 mol N₂?",
+        "accept": [
+          "^8(\\.0)?(\\s*mol(\\s*NH[3₃])?)?$",
+          "^8(\\.0)?\\s*moles(\\s+of)?(\\s+NH[3₃])?$",
+          "^8(\\.0)?\\s*mol\\s+of\\s+NH[3₃]$"
+        ]
+      }
+    },
+    {
+      "id": "limiting-reagent",
+      "label": "the limiting reagent",
+      "why": "Item 3 cites the limiting reagent as the source of the theoretical yield but never shows the two-yield comparison that names it.",
+      "signatures": [
+        "limiting reagent",
+        "theoretical yield"
+      ],
+      "lesson": {
+        "notation": "stoichiometry",
+        "steps": [
+          {
+            "text": "When two amounts are given, each reactant can make its own amount of the same product."
+          },
+          {
+            "text": "Convert each given amount through the mole ratio into moles of that product."
+          },
+          {
+            "text": "The smaller product amount is the theoretical yield. The reactant that made it is limiting."
+          },
+          {
+            "text": "On this quiz: 4.0 mol N₂ → 8.0 mol NH₃; 9.0 mol H₂ → 6.0 mol NH₃. H₂ is limiting, so the yield is 6.0 mol."
+          }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: 4.0 mol N₂ and 9.0 mol H₂ react by N₂ + 3 H₂ → 2 NH₃. Which reactant is limiting?",
+        "accept": [
+          "^H[2₂]$",
+          "^[Hh]ydrogen(\\s+gas)?$",
+          "^H[2₂]\\s+is\\s+(the\\s+)?limiting"
+        ]
+      }
+    }
+  ],
+  "nextLine": {
+    "setup": "A later problem says: '9.0 mol H₂ × (2 mol NH₃ / 3 mol H₂). Write the next line — evaluate that product yourself.'",
+    "expect": {
+      "pattern": "^(=\\s*)?6(\\.0)?(\\s*mol(\\s*NH[3₃])?)?$",
+      "hint": "Multiply across, then divide: 9.0 × 2 is 18, and 18/3 is 6. The next line is 6.0 mol NH₃."
+    }
+  }
+}
