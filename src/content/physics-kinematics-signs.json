@@ -1,0 +1,66 @@
+{
+  "id": "physics-kinematics-signs",
+  "title": "Lab Sheet 3 — Projectile Motion",
+  "subject": "Physics",
+  "sourceText": "Physics — Lab Sheet 3: Projectile Motion (convention: UP IS POSITIVE)\n\nThroughout this sheet use the course sign convention: the +y axis points up.\nGravity acts downward, so its contribution enters equations as −g with g = 9.8 m/s².\n\nA projectile launched with speed v at angle θ above the horizontal has\nvelocity components:\n    vₓ = v · cos θ        (constant for the whole flight)\n    v_y = v · sin θ − g t  (changes every second)\n\nAt the peak of the flight, v_y = 0 while vₓ stays unchanged.\n\nQuestions:\n1) A ball is thrown straight up at 12 m/s. Find its velocity at t = 2.0 s.\n2) A launcher fires a pellet at 20 m/s, 30° above horizontal.\n   (a) Compute vₓ.\n   (b) Explain why vₓ does not change during flight.\n3) Challenge: sketch v_y vs t for question 1. Where does the graph cross zero?",
+  "marks": [
+    {
+      "id": "axis-sign-convention",
+      "label": "the upward-positive convention",
+      "why": "The sheet announces 'UP IS POSITIVE' and then quietly encodes it as the minus sign in front of g. If the convention feels arbitrary, every answer looks arbitrary. One naming pass fixes that.",
+      "signatures": [
+        "UP IS POSITIVE",
+        "−\\s*g with g\\s*=\\s*9\\.8"
+      ],
+      "lesson": {
+        "notation": "kinematics",
+        "steps": [
+          { "text": "Pick an axis direction and declare it positive. This sheet declares up = +y." },
+          { "text": "Every vector pointing the other way enters your equations wearing a minus sign." },
+          { "text": "Gravity pulls down, so it always contributes −g = −9.8 m/s² on this sheet — regardless of which way the object moves." },
+          { "text": "Velocity signs track motion: rising means v_y > 0, falling means v_y < 0. A negative velocity is not an error; it is information." }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: ball thrown straight up at 12 m/s, up is positive, g = 9.8 m/s². What is its velocity at t = 2.0 s?",
+        "accept": [
+          "^[-−]\\s*7\\.6(\\s*m\\s*/\\s*s)?$",
+          "^7\\.6\\s*m\\s*/\\s*s\\s+(downward|down)$"
+        ]
+      }
+    },
+    {
+      "id": "vector-components-from-angle",
+      "label": "splitting velocity into components",
+      "why": "Question 2 assumes you can turn one angled arrow into two perpendicular ones. The cos/sin pairing decides everything downstream, so it deserves its own name.",
+      "signatures": [
+        "vₓ\\s*=\\s*v\\s*[·]\\s*cos",
+        "[Cc]ompute vₓ"
+      ],
+      "lesson": {
+        "notation": "vectors",
+        "steps": [
+          { "text": "Draw the velocity arrow and the angle θ above horizontal." },
+          { "text": "The horizontal shadow of the arrow is vₓ = v · cos θ — cosine hugs the adjacent side." },
+          { "text": "The vertical shadow is v_y = v · sin θ — sine takes the side across from θ." },
+          { "text": "Sanity-check sizes: at θ = 0° all speed is horizontal (cos 0° = 1, sin 0° = 0); at 90° all vertical." },
+          { "text": "Carry units through: components are velocities, so they wear m/s too." }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: v = 20 m/s at θ = 30° above horizontal. Compute vₓ to one decimal place.",
+        "accept": [
+          "^17\\.3(\\s*m\\s*/\\s*s)?$",
+          "^17(\\.0)?(\\s*m\\s*/\\s*s)?$"
+        ]
+      }
+    }
+  ],
+  "nextLine": {
+    "setup": "Question 1 wants work, not an answer key. A stone is thrown straight up at 15 m/s. Before plugging any final number, write the general expression for v_y at time t — your next line, using the sheet's convention.",
+    "expect": {
+      "pattern": "^v\\s*_?\\s*y\\s*=\\s*15(\\.0)?\\s*[-−]\\s*9\\.8\\s*\\*?\\s*t$",
+      "hint": "Start at 15 m/s and let gravity remove 9.8 every second: v_y = 15 − 9.8 t."
+    }
+  }
+}

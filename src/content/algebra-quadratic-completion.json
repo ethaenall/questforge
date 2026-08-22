@@ -1,0 +1,68 @@
+{
+  "id": "algebra-quadratic-completion",
+  "title": "Worksheet 4.3 — Quadratic Vertex Form",
+  "subject": "Algebra 2",
+  "sourceText": "Algebra 2 — Worksheet 4.3: Quadratic Vertex Form\nName: ________    Date: ________\n\nRewrite each quadratic in vertex form. Show every line of your work.\n\n1) y = x² + 8x − 20\n   Worked example:\n   Line 1 — group the x terms:            y = (x² + 8x) − 20\n   Line 2 — add and subtract (b/2)²:      y = (x² + 8x + 16) − 16 − 20\n   Line 3 — factor and simplify:          y = (x + 4)² − 36\n\n2) y = x² − 12x + 7\n\n3) The path of a water arc is modeled by h(t) = −16t² + 64t + 40,\n   where h is height in feet and t is time in seconds.\n   (a) Rewrite h in vertex form.\n   (b) State the maximum height and when it occurs.\n\nNote for problem 4: you will meet complex numbers here. Recall i = √−1,\nso expressions like √−9 become 3i.\n\n4) Solve x² + 4x + 13 = 0 by completing the square.",
+  "marks": [
+    {
+      "id": "complete-square-b-over-2",
+      "label": "completing the square",
+      "why": "Problem 2 hands you a bare quadratic, but the worked example compresses the whole method into the shorthand (b/2)². Naming that move puts it back in your hands.",
+      "signatures": [
+        "\\(\\s*b\\s*/\\s*2\\s*\\)\\s*(\\^2|²)",
+        "[Aa]dd [Aa][Nn][Dd] subtract"
+      ],
+      "lesson": {
+        "notation": "algebraic",
+        "steps": [
+          { "text": "For y = x² + bx + c, cut b in half. That number is b/2." },
+          { "text": "Square it: (b/2)² is the number that turns x² + bx into a perfect square." },
+          { "text": "Add AND subtract (b/2)² — the addition completes the square, the subtraction keeps the equation true." },
+          { "text": "Factor the result: x² + bx + (b/2)² = (x + b/2)²." },
+          { "text": "In the worked example, b = 8, so (b/2)² = 4² = 16 — exactly the 16 you see appear and disappear in Line 2." }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: what number completes the square for x² + 10x + ____ ?",
+        "accept": [
+          "^25$",
+          "^5(\\^2|²)$",
+          "^\\(\\s*5\\s*\\)\\s*(\\^2|²)$"
+        ]
+      }
+    },
+    {
+      "id": "imaginary-unit-i",
+      "label": "the imaginary unit i",
+      "why": "Problem 4 ends with a negative number under the root, and the note leans on i = √−1 without building it. Here is the build.",
+      "signatures": [
+        "i\\s*=\\s*√\\s*−?\\s*1",
+        "√\\s*−\\s*9"
+      ],
+      "lesson": {
+        "notation": "complex numbers",
+        "steps": [
+          { "text": "√−1 gets its own name: i, the imaginary unit. Its defining property is i · i = −1." },
+          { "text": "To root a negative, pull the negative out first: √(−n) = √n · i whenever n > 0." },
+          { "text": "Check it against the worksheet note: √−9 = √9 · i = 3i." },
+          { "text": "Your answer lives in the complex world now — a + bi form is a complete, valid solution." }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: write √−49 in terms of i.",
+        "accept": [
+          "^7i$",
+          "^i\\s*\\*?\\s*7$",
+          "^\\+?7\\s*i$"
+        ]
+      }
+    }
+  ],
+  "nextLine": {
+    "setup": "Problem 2: y = x² − 12x + 7. You grouped already: y = (x² − 12x) + 7. Now write YOUR Line 2 — the one where you add and subtract (b/2)² inside the group.",
+    "expect": {
+      "pattern": "^y\\s*=\\s*\\(?\\s*x(\\^2|²)\\s*[-−]\\s*12\\s*x\\s*\\+\\s*36\\s*\\)?\\s*[-−]\\s*36(\\s*\\+\\s*7)?$",
+      "hint": "Half of −12 is −6, and (−6)² = 36. Add 36 inside the parentheses, subtract 36 outside them."
+    }
+  }
+}

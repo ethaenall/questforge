@@ -1,0 +1,68 @@
+{
+  "id": "calc-chain-notation",
+  "title": "Problem Set 7 — Related Rates",
+  "subject": "Calculus",
+  "sourceText": "Calculus — Problem Set 7: Related Rates\n\nUseful fact: the volume of a sphere is V = (4/3)πr³.\n\nWorked excerpt:\n   Air enters a spherical balloon at a rate of dV/dt = 100 cm³/s.\n   Differentiating both sides with respect to t gives\n       dV/dt = 4πr² · dr/dt.\n   Solve for dr/dt at the instant r = 5 cm.\n\nProblems:\n1) A snowball melts so that its surface area shrinks at a constant rate.\n   Its radius satisfies S = 4πr². Find dS/dt in terms of r and dr/dt.\n2) A ladder slides away from a wall. Let x be the distance from the wall\n   and y the height on the wall, with x² + y² = 25.\n   Differentiate the whole equation with respect to t.\n\nReminder: keep every rate labeled — dV/dt, dr/dt, dx/dt — and say which\ninstant each number belongs to.",
+  "marks": [
+    {
+      "id": "reading-d-over-dt",
+      "label": "reading d/dt",
+      "why": "The excerpt opens with dV/dt = 100 cm³/s as if the notation reads itself. It doesn't have to stay opaque — one naming pass and it does.",
+      "signatures": [
+        "dV\\s*/\\s*dt\\s*=\\s*100",
+        "dV\\s*/\\s*dt\\s*=\\s*4πr²"
+      ],
+      "lesson": {
+        "notation": "calculus",
+        "steps": [
+          { "text": "Read d/dt as one indivisible symbol: 'the rate of change of … with respect to time.'" },
+          { "text": "So dV/dt names a single object — how fast V changes per second. It is not V divided by anything." },
+          { "text": "Units confirm the reading: V is in cm³, t in s, so dV/dt wears cm³/s. A rate, exactly as promised." },
+          { "text": "In the excerpt, dV/dt = 100 cm³/s is a GIVEN rate. The question hunts a different one: dr/dt." }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: in the statement dV/dt = 100 cm³/s, what does dV/dt name? Answer in words.",
+        "accept": [
+          "^([Tt]he\\s+)?[Rr]ate( of change)?( of)? ([Tt]he )?[Vv]olume",
+          "^[Hh]ow fast ([Tt]he )?[Vv]olume (is\\s+)?(changing|grows|growing|increases|increasing|expands|expanding)",
+          "^[Vv]olume'?s? rate of change"
+        ]
+      }
+    },
+    {
+      "id": "chain-rule-rates",
+      "label": "the chain rule as a rates converter",
+      "why": "The excerpt's line dV/dt = 4πr² · dr/dt contains a silent step: the chain rule inserting dr/dt. Rebuilding that step makes the line derivable instead of magical.",
+      "signatures": [
+        "4πr²\\s*[·]\\s*dr\\s*/\\s*dt",
+        "chain rule"
+      ],
+      "lesson": {
+        "notation": "calculus",
+        "steps": [
+          { "text": "When a quantity depends on t only through another variable, differentiating pulls in an extra factor." },
+          { "text": "The rule: d/dt[ f(g(t)) ] = f′(g(t)) · g′(t). In words: outside derivative × inside derivative." },
+          { "text": "Balloon version: V depends on r, and r depends on t, so dV/dt = (dV/dr) · (dr/dt)." },
+          { "text": "Compute the outside piece: dV/dr from V = (4/3)πr³ is 4πr²." },
+          { "text": "Multiply by the inside piece dr/dt and the excerpt's line is rebuilt: dV/dt = 4πr² · dr/dt. The trailing dr/dt is not decoration — it is the chain rule's fee." }
+        ]
+      },
+      "check": {
+        "prompt": "Apply the move: x = y³ and y = 1 + t². Write dx/dt in terms of y and t.",
+        "accept": [
+          "^3\\s*y(\\^2|²)\\s*[·\\*]?\\s*(2\\s*t|2t)$",
+          "^6\\s*y(\\^2|²)\\s*\\*?\\s*t$",
+          "^6t\\s*y(\\^2|²)$"
+        ]
+      }
+    }
+  ],
+  "nextLine": {
+    "setup": "Problem 1: a spherical balloon holds V = (4/3)πr³ with air entering at dV/dt = 100 cm³/s. The excerpt jumps straight to the differentiated line — but you write YOUR next line: differentiate both sides with respect to t.",
+    "expect": {
+      "pattern": "^dV\\s*/\\s*dt\\s*=\\s*\\(?\\s*4\\s*π\\s*r(\\^2|²)\\s*\\)?\\s*[·\\*]?\\s*\\(?\\s*dr\\s*/\\s*dt\\s*\\)?$",
+      "hint": "Differentiate the right side as a chain: the derivative of r³ brings down 3r² and a fee of dr/dt; (4/3)π · 3 simplifies to 4π. So the line is dV/dt = 4πr² · dr/dt."
+    }
+  }
+}

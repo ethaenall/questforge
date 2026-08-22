@@ -1,0 +1,1 @@
+{"root":["./src/app.test.tsx","./src/app.tsx","./src/main.tsx","./src/components/settingsdialog.tsx","./src/domain/config.ts","./src/domain/kernel.test.ts","./src/domain/kernel.ts","./src/domain/loader.ts","./src/domain/modelkernel.ts","./src/domain/types.test.ts","./src/domain/types.ts"],"version":"5.6.3"}
